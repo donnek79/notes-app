@@ -14,7 +14,7 @@ class AuthenticationsHandler {
     this._validator.validatePostAuthenticationPayload(request.payload);
 
     const { username, password } = request.payload;
-    const id = this._usersService.verifyUserCredential(username, password);
+    const id = await this._usersService.verifyUserCredential(username, password);
 
     const accessToken = this._tokenManager.generateAccessToken({ id });
     const refreshToken = this._tokenManager.generateRefreshToken({ id });
@@ -43,7 +43,7 @@ class AuthenticationsHandler {
     const accessToken = this._tokenManager.generateAccessToken({ id });
     return {
       status: 'success',
-      message: 'Access token berhasil diperbarui',
+      message: 'Access Token berhasil diperbarui',
       data: {
         accessToken,
       },
@@ -55,7 +55,7 @@ class AuthenticationsHandler {
 
     const { refreshToken } = request.payload;
     await this._authenticationsService.verifyRefreshToken(refreshToken);
-    await this._authenticationsService.deleteRefreshToken(refreshToken);
+    // await this._authenticationsService.deleteRefreshToken(refreshToken);
 
     return {
       status: 'success',
